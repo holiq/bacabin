@@ -81,7 +81,7 @@ class Manganato extends BaseKomik {
 
 		$('.container-chapter-reader img').each((i, el) => {
 			const imageUrl = encodeURIComponent($(el).attr()['src']);
-			chapterImages.push(`/${mirrorImage()}?referer=${encodeURIComponent(chapter_link)}&url=${imageUrl}`);
+			chapterImages.push(`${mirrorImage()}?referer=${encodeURIComponent(chapter_link)}&url=${imageUrl}`);
 		});
 		return {
 			title,
