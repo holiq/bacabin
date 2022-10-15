@@ -1,4 +1,4 @@
-import { mirrorImage } from '$lib/mirrorimage';
+import { mirrorImage, refererImage } from '$lib/mirrorimage';
 import BaseKomik, { type Chapter, type Komik, type KomikDetail } from '../BaseKomik';
 import type { ReadChapter } from '../BaseKomik/interfaces';
 
@@ -72,8 +72,7 @@ class Bacakomik extends BaseKomik {
 				image = onErrorAttr.replace(/^this\.onerror=null;this\.src=\'/i, '').replace(/';$/i, '')
 			}
 
-			image = `${mirrorImage()}/?referer=${encodeURIComponent(chapter_link)}&url=${image}`
-			chapterImages.push(image)
+			chapterImages.push(refererImage(image, chapter_link))
 		});
 		return {
 			title,

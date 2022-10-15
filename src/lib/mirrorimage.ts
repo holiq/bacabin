@@ -14,11 +14,19 @@ const mirrorImages = [
     'https://mirrorimage13.vercel.app',
     'https://mirrorimage14.vercel.app',
     'https://mirrorimage15.vercel.app',
-]
+] as const
 let index = 0
 export const mirrorImage = () => {
     const mirror = mirrorImages[index]
     if (index === mirrorImages.length - 1) index = 0
     else index++
     return mirror
+}
+
+
+export const refererImage = (url: string, referer: string) => {
+    const mirrorLink = new URL(mirrorImage())
+    mirrorLink.searchParams.set('referer', referer)
+    mirrorLink.searchParams.set('url', url)
+    return mirrorLink.toString()
 }
