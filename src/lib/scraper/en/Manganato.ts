@@ -1,3 +1,4 @@
+import { mirrorImage } from '$lib/mirrorimage';
 import BaseKomik, { type Chapter, type Komik, type KomikDetail } from '../BaseKomik';
 import type { ReadChapter } from '../BaseKomik/interfaces';
 import { snakeCase } from '../supports';
@@ -77,9 +78,10 @@ class Manganato extends BaseKomik {
 		const next = nextAttribute ? nextAttribute['href'] : null;
 
 		const chapterImages: string[] = [];
+
 		$('.container-chapter-reader img').each((i, el) => {
 			const imageUrl = encodeURIComponent($(el).attr()['src']);
-			chapterImages.push(`/mirror?referer=${encodeURIComponent(chapter_link)}&url=${imageUrl}`);
+			chapterImages.push(`/${mirrorImage()}?referer=${encodeURIComponent(chapter_link)}&url=${imageUrl}`);
 		});
 		return {
 			title,

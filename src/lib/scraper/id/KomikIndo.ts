@@ -1,3 +1,4 @@
+import { mirrorImage } from '$lib/mirrorimage';
 import BaseKomik, { type Chapter, type Komik, type KomikDetail } from '../BaseKomik';
 import type { ReadChapter } from '../BaseKomik/interfaces';
 
@@ -63,14 +64,15 @@ class KomikIndo extends BaseKomik {
 		const showLink = $('.nextprev:first-child a .daftarch').parent().attr()['href'];
 
 		const chapterImages: string[] = [];
+
 		$('#chimg-auh img').each((i, el) => {
 			const onErrorAttr = $(el).attr().onerror.toString()
 			let image = $(el).attr()['src'];
 			if (onErrorAttr.includes("this.src")) {
 				image = onErrorAttr.replace(/^this\.onerror=null;this\.src=\'/i, '').replace(/';$/i, '')
 			}
-			image = `/mirror?referer=${encodeURIComponent(chapter_link)}&url=${image}`
 
+			image = `${mirrorImage()}/?referer=${encodeURIComponent(chapter_link)}&url=${image}`
 			chapterImages.push(image)
 		});
 		console.log(chapterImages)
