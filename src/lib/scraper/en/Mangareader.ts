@@ -101,9 +101,7 @@ class Mangastic extends BaseKomik {
 		const prev = prevAttribute ? prevAttribute['href'] : null;
 		const nextAttribute = $('.nextprev a.next').attr();
 		const next = nextAttribute ? null : nextAttribute['href'];
-
-		const showLink = $('h2.chapter-title:nth-child(1) a').attr()['href'];
-
+		const showLink = $('.postarea h2 a').attr()['href'];
 		return { title, chapterImages, next, prev, showLink };
 	}
 }
