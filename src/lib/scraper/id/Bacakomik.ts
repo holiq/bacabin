@@ -1,3 +1,4 @@
+import { mirrorImage } from '$lib/mirrorimage';
 import BaseKomik, { type Chapter, type Komik, type KomikDetail } from '../BaseKomik';
 import type { ReadChapter } from '../BaseKomik/interfaces';
 
@@ -65,7 +66,14 @@ class Bacakomik extends BaseKomik {
 
 		const chapterImages: string[] = [];
 		$('#chimg-auh img').each((i, el) => {
-			chapterImages.push($(el).attr()['src']);
+			const onErrorAttr = $(el).attr().onerror.toString()
+			let image = $(el).attr()['src'];
+			if (onErrorAttr.includes("this.src")) {
+				image = onErrorAttr.replace(/^this\.onerror=null;this\.src=\'/i, '').replace(/';$/i, '')
+			}
+
+			image = `${mirrorImage()}/?referer=${encodeURIComponent(chapter_link)}&url=${image}`
+			chapterImages.push(image)
 		});
 		return {
 			title,

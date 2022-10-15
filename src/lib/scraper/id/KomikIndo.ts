@@ -75,7 +75,6 @@ class KomikIndo extends BaseKomik {
 			image = `${mirrorImage()}/?referer=${encodeURIComponent(chapter_link)}&url=${image}`
 			chapterImages.push(image)
 		});
-		console.log(chapterImages)
 		return {
 			title,
 			next,
