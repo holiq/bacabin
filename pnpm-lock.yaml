@@ -24,7 +24,7 @@ specifiers:
   svelte: ^3.44.0
   svelte-check: ^2.7.1
   svelte-lazy-image: ^0.5.1
-  svelte-lazyimage-cache: ^1.0.6
+  svelte-lazyimage-cache: ^1.0.9
   svelte-local-storage-store: ^0.3.1
   svelte-preprocess: ^4.10.7
   svelte-reveal: ^0.6.0
@@ -39,7 +39,7 @@ dependencies:
   got-scraping: 3.2.11
   nprogress: 0.2.0
   sass: 1.55.0
-  svelte-lazyimage-cache: 1.0.6
+  svelte-lazyimage-cache: 1.0.9
 
 devDependencies:
   '@brainandbones/skeleton': 0.32.19
@@ -2477,8 +2477,8 @@ packages:
     resolution: {integrity: sha512-BDwywMngYjrEtL73N2ZKYYnWlNBWSnw31y1Mb3kNeXVc/9iDir6Ew3bfuDtuEyi3evBFXF0jixkCMFuTseWjWQ==}
     dev: true
 
-  /svelte-lazyimage-cache/1.0.6:
-    resolution: {integrity: sha512-wSKmquqVcHIvkOXXpWZe2LUlxV88at81sz08PpJ8qQqQtTE4wL9Z+sZ5EqbqaXC5xubBz9BrCe51p1ymp8RsqA==}
+  /svelte-lazyimage-cache/1.0.9:
+    resolution: {integrity: sha512-C2ly6oWPSVZwI5jdVd+M9dNdxw7g4IIkz6BPiOVoVBwSVDVDFa3OPMVV9K7rtva2HULMyXpIrZwy8CPCoZPbtA==}
     dev: false
 
   /svelte-local-storage-store/0.3.1_svelte@3.52.0:

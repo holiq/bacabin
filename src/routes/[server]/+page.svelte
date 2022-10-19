@@ -3,11 +3,11 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { reveal } from 'svelte-reveal';
-import {useLazyImage} from 'svelte-lazy-image'
+	import { lazyimage } from 'svelte-lazyimage-cache';
 	export let data: PageData;
 	const currentPathname = $page.url.pathname;
 	let q = data.q;
-	let tid: string;
+	let tid: any;
 	function search() {
 		const currentUrl = new URL($page.url.toString());
 		currentUrl.searchParams.set('q', q || '');
@@ -21,14 +21,13 @@ import {useLazyImage} from 'svelte-lazy-image'
 			search();
 		}, 5_000);
 	}
-	function keydown(e: string) {
+	function keydown(e: any) {
 		onSearch();
 		if (e.keyCode == 13) {
 			tid && clearTimeout(tid);
 			search();
 		}
 	}
-	
 </script>
 
 <svelte:head>
@@ -58,7 +57,7 @@ import {useLazyImage} from 'svelte-lazy-image'
 				id="cari"
 				bind:value={q}
 				on:keydown={keydown}
-				minlength="2"
+				minlength={2}
 				required
 			/>
 			<span
@@ -87,7 +86,7 @@ import {useLazyImage} from 'svelte-lazy-image'
 						<a href={[currentPathname, list.show].join('/')}>
 							<div class="image">
 								<img
-								use:useLazyImage
+									use:lazyimage
 									data-src={list.img}
 									src="/loading.gif"
 									loading="lazy"

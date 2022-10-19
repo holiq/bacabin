@@ -1,13 +1,8 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { page } from '$app/stores';
 	import ChapterPrevNext from '$lib/components/ChapterPrevNext.svelte';
-	import { mirrorImage, refererImage } from '$lib/mirrorimage';
+	import { refererImage } from '$lib/mirrorimage';
 
 	import type { ReadChapter } from '$lib/scraper/BaseKomik/interfaces';
-	import { onMount } from 'svelte';
-	import { useLazyImage } from 'svelte-lazy-image';
-	// @ts-ignore
 	import { lazyimage } from 'svelte-lazyimage-cache';
 	export let value: ReadChapter;
 	export let server: string;
@@ -17,8 +12,7 @@
 	$: chapterList = value.showLink ? `/${server}/${value.showLink}` : null;
 	$: chapterImages = value.chapterImages;
 	function onError(index: number) {
-		return (el: HTMLImageElement) => {
-			console.log('error', index);
+		return (el: any) => {
 			setTimeout(() => {
 				const target = new URL(chapterImages[index]);
 				if (target.searchParams.has('url') && target.searchParams.has('referer')) {
@@ -32,7 +26,6 @@
 				}
 				// @ts-ignore
 				el.target.src = chapterImages[index];
-				console.log('harusnya udah', index);
 			}, 2000);
 		};
 	}

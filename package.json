@@ -29,7 +29,6 @@
 		"prettier-plugin-svelte": "^2.7.0",
 		"svelte": "^3.44.0",
 		"svelte-check": "^2.7.1",
-		"svelte-lazy-image": "^0.5.1",
 		"svelte-local-storage-store": "^0.3.1",
 		"svelte-preprocess": "^4.10.7",
 		"svelte-reveal": "^0.6.0",
@@ -45,6 +44,6 @@
 		"got-scraping": "^3.2.10",
 		"nprogress": "^0.2.0",
 		"sass": "^1.54.8",
-		"svelte-lazyimage-cache": "^1.0.6"
+		"svelte-lazyimage-cache": "^1.0.9"
 	}
 }
