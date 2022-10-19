@@ -2,53 +2,39 @@
 	import { browser } from '$app/environment';
 	import { page } from '$app/stores';
 	import ChapterPrevNext from '$lib/components/ChapterPrevNext.svelte';
+	import { mirrorImage, refererImage } from '$lib/mirrorimage';
 
 	import type { ReadChapter } from '$lib/scraper/BaseKomik/interfaces';
+	import { onMount } from 'svelte';
 	import { useLazyImage } from 'svelte-lazy-image';
+	// @ts-ignore
+	import { lazyimage } from 'svelte-lazyimage-cache';
 	export let value: ReadChapter;
 	export let server: string;
 
 	$: prev = value.prev ? `/${server}/read/${value.prev}` : null;
 	$: next = value.next ? `/${server}/read/${value.next}` : null;
 	$: chapterList = value.showLink ? `/${server}/${value.showLink}` : null;
-	let images: { img: string; cache: boolean }[] = [];
-	// $: images = value.chapterImages;
-	const promiseTimeout = (ms: number, promise: any, timeoutMessage: string | null = null) => {
-		let timerID: any;
-
-		const timer = new Promise((resolve, reject) => {
-			timerID = setTimeout(() => reject(timeoutMessage), ms);
-		});
-
-		return Promise.race([promise, timer]).then((result) => {
-			clearTimeout(timerID);
-
-			return result;
-		});
-	};
-	const imageComplete = (imageURL: string) =>
-		new Promise((resolve, reject) => {
-			let image = new Image();
-			image.onload = () => resolve(image);
-			image.onerror = () => reject(image);
-
-			image.src = imageURL;
-		});
-	let isRunning = false;
-	$: if (browser && isRunning === false) {
-		(async () => {
-			isRunning = true;
-			for (const image of value.chapterImages) {
-				try {
-					await promiseTimeout(50, imageComplete(image), 'Not loaded from cache');
-					images[images.length] = { img: image, cache: true };
-					console.log('Loaded From Cache', image);
-				} catch (error) {
-					images[images.length] = { img: image, cache: false };
-					console.log(error, image);
+	$: chapterImages = value.chapterImages;
+	function onError(index: number) {
+		return (el: HTMLImageElement) => {
+			console.log('error', index);
+			setTimeout(() => {
+				const target = new URL(chapterImages[index]);
+				if (target.searchParams.has('url') && target.searchParams.has('referer')) {
+					let url = target.searchParams.get('url') || '';
+					let referer = target.searchParams.get('referer') || '';
+					chapterImages[index] = refererImage(url, referer);
+					console.log('new chap', chapterImages[index]);
+				} else {
+					target.searchParams.set('time', Date.now().toString());
+					chapterImages[index] = target.toString();
 				}
-			}
-		})();
+				// @ts-ignore
+				el.target.src = chapterImages[index];
+				console.log('harusnya udah', index);
+			}, 2000);
+		};
 	}
 </script>
 
@@ -60,20 +46,15 @@
 		<ChapterPrevNext {prev} {next} {chapterList} />
 	</div>
 	<div class="flex flex-col justify-center items-center">
-		{#each images as image, i}
-			{#if image.cache}
-				<img use:useLazyImage src={image.img} alt={value.title + ' ' + (i + 1)} loading="lazy" />
-			{:else}
-				<img
-					use:useLazyImage
-					data-src={image.img}
-					src="/loading.gif"
-					alt={value.title + ' ' + (i + 1)}
-					loading="lazy"
-				/>
-			{/if}
-
-			<!-- <img src={imageLink} loading="lazy" /> -->
+		{#each chapterImages as image, i}
+			<img
+				use:lazyimage
+				data-src={image}
+				on:error={onError(i)}
+				src="/placeholder.png"
+				alt={value.title + ' ' + (i + 1)}
+				loading="lazy"
+			/>
 		{/each}
 	</div>
 

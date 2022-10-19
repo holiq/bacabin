@@ -44,6 +44,7 @@
 		"cheerio": "^1.0.0-rc.12",
 		"got-scraping": "^3.2.10",
 		"nprogress": "^0.2.0",
-		"sass": "^1.54.8"
+		"sass": "^1.54.8",
+		"svelte-lazyimage-cache": "^1.0.6"
 	}
 }
