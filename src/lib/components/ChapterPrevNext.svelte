@@ -4,7 +4,10 @@
 	export let next: string | null;
 </script>
 
-<div class="flex flex-col md:flex-row gap-10 my-5 md:justify-center md:items-center">
+<div
+	class="flex flex-col md:flex-row gap-10 my-5 md:justify-center md:items-center"
+	data-sveltekit-prefetch
+>
 	<div>
 		{#if prev}
 			<a

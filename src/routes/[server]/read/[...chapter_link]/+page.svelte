@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, prefetch } from '$app/navigation';
 
 	import { page } from '$app/stores';
 	import BackToTop from '$lib/components/BackToTop.svelte';
@@ -8,6 +8,13 @@
 	import type { PageData } from './$types';
 	import Reading from '$lib/components/Reading.svelte';
 	export let data: PageData;
+	let preloadImages: string[] = [];
+	$: {
+		data.item.chapterImages;
+		for (let i = 0; i < 3; i++) {
+			preloadImages[preloadImages.length] = data.item.chapterImages[i];
+		}
+	}
 
 	async function save() {
 		const historyData = {
@@ -34,6 +41,9 @@
 
 <svelte:head>
 	<title>{data.item.title}</title>
+	{#each preloadImages as image}
+		<link rel="preload" as="image" href={image} />
+	{/each}
 </svelte:head>
 
 <!-- Recreate element when value key is change -->
