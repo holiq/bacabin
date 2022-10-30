@@ -7,6 +7,7 @@
 	import { historyChapter, historyKomik } from '$lib/stores/history';
 	import type { PageData } from './$types';
 	import Reading from '$lib/components/Reading.svelte';
+	import DoubleClickToScroll from '$lib/components/DoubleClickToScroll.svelte';
 	export let data: PageData;
 	let preloadImages: string[] = [];
 	$: {
@@ -50,9 +51,11 @@
 {#key $page.url.toString()}
 	<GotoDown />
 	<BackToTop />
-	<div class="mb-[30vh]">
-		<Reading value={data.item} server={data.server} />
-	</div>
+	<DoubleClickToScroll>
+		<div class="mb-[30vh]">
+			<Reading value={data.item} server={data.server} />
+		</div>
+	</DoubleClickToScroll>
 	<div id="reload" on:click={reload}>Reload</div>
 {/key}
 
