@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, prefetch } from '$app/navigation';
+	import { beforeNavigate, goto, prefetch } from '$app/navigation';
 
 	import { page } from '$app/stores';
 	import BackToTop from '$lib/components/BackToTop.svelte';
@@ -8,6 +8,7 @@
 	import type { PageData } from './$types';
 	import Reading from '$lib/components/Reading.svelte';
 	import DoubleClickToScroll from '$lib/components/DoubleClickToScroll.svelte';
+	import { chapterImagesStore, chapterLink } from '$lib/stores/image-caches';
 	export let data: PageData;
 	let preloadImages: string[] = [];
 	$: {
@@ -15,6 +16,12 @@
 		for (let i = 0; i < 3; i++) {
 			preloadImages[preloadImages.length] = data.item.chapterImages[i];
 		}
+	}
+	if ($page.url.toString() == $chapterLink) {
+		data.item.chapterImages = $chapterImagesStore;
+	} else {
+		$chapterLink = $page.url.toString();
+		$chapterImagesStore = data.item.chapterImages;
 	}
 
 	async function save() {
