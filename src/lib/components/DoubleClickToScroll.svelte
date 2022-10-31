@@ -1,6 +1,6 @@
 <script>
 	function handler() {
-		let targetScroll = (window.outerHeight * 90) / 100;
+		let targetScroll = (window.outerHeight * 75) / 100;
 		targetScroll += document.documentElement.scrollTop;
 		window.scrollTo({ top: targetScroll, behavior: 'smooth' });
 	}
