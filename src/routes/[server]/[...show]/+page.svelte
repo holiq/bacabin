@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { bookmarks } from '$lib/stores/bookmarks';
 	import { reveal } from 'svelte-reveal';
-
 
 	export let data: import('./$types').PageData;
 	let q = '';
@@ -12,6 +13,27 @@
 		q = q.replace(/\s+/, ' ');
 		chapters = data.item.chapters.filter((chapter) => new RegExp(q, 'i').test(chapter.title));
 	}
+	let bookmark = false;
+	if ($bookmarks[$page.url.pathname]) bookmark = true;
+
+	$: bookmarkImg = bookmark ? '/bookmarked.svg' : '/bookmark.svg';
+	$: {
+		if (bookmark) {
+			$bookmarks[$page.url.pathname] = {
+				img: data.item.img,
+				show: $page.url.toString(),
+				server: data.server,
+				serverLocation: `/${data.server}`,
+				title: data.item.title
+			};
+		} else {
+			delete $bookmarks[$page.url.pathname]
+			$bookmarks=$bookmarks
+		}
+	}
+	const onBookmark = () => {
+		bookmark = !bookmark;
+	};
 </script>
 
 <svelte:head>
@@ -21,7 +43,15 @@
 <div class="content">
 	<div class="text-center mb-5">
 		<img use:reveal src={data.item.img} alt={data.item.title} class="mx-auto" />
-		<h1 class="py-5">{data.item.title}</h1>
+		<div class="flex justify-center items-center gap-2">
+			<h1 class="py-5">
+				{data.item.title}
+			</h1>
+			<!-- svelte-ignore a11y-click-events-have-key-events -->
+			<span class="cursor-pointer" on:click={onBookmark}
+				><img src={bookmarkImg} class="inline" alt="" /></span
+			>
+		</div>
 		<div class="mb-5">
 			Cek
 			<a href={data.show} class="text-blue-500 hover:text-blue-800" target="_blank">di sini</a> untuk

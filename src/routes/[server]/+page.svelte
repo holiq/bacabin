@@ -45,7 +45,12 @@
 		</h5>
 		<div class="my-10 tracking-wide">
 			<p>
-				Selamat Datang di server <strong>{data.server.name}</strong>. Silakan menikmati waktumu
+				Selamat Datang di server <strong>{data.server.name}</strong>. Silakan menikmati waktumu.
+			</p>
+			<p>
+				Cek list bookmarks di server {data.server.name}
+				<a href="{$page.url.pathname}/bookmarks" class="text-blue-500 hover:text-blue-800">disini</a
+				>
 			</p>
 		</div>
 		<label for="cari">
