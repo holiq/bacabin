@@ -51,6 +51,8 @@
 							>{item.server}</a
 						>
 					</p>
+				{:else}
+					<p>Data tidak ditemukan</p>
 				{/each}
 			</div>
 		</div>
